@@ -22,17 +22,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Luis Fernando Leiva
+ * @author Mery Evelyn Ceron
  */
 @Entity
-@Table(name = "transacciones_estrategia", catalog = "vapstool", schema = "", uniqueConstraints = {
+@Table(name = "transacciones_estrategia", catalog = "tools", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TransaccionesEstrategia.findAll", query = "SELECT t FROM TransaccionesEstrategia t")
-    , @NamedQuery(name = "TransaccionesEstrategia.findById", query = "SELECT t FROM TransaccionesEstrategia t WHERE t.id = :id")
-    , @NamedQuery(name = "TransaccionesEstrategia.findByTransacciones", query = "SELECT t FROM TransaccionesEstrategia t WHERE t.transacciones = :transacciones")
-    , @NamedQuery(name = "TransaccionesEstrategia.findByAnio", query = "SELECT t FROM TransaccionesEstrategia t WHERE t.anio = :anio")})
+    @NamedQuery(name = "TransaccionesEstrategia.findAll", query = "SELECT t FROM TransaccionesEstrategia t"),
+    @NamedQuery(name = "TransaccionesEstrategia.findById", query = "SELECT t FROM TransaccionesEstrategia t WHERE t.id = :id"),
+    @NamedQuery(name = "TransaccionesEstrategia.findByTransacciones", query = "SELECT t FROM TransaccionesEstrategia t WHERE t.transacciones = :transacciones"),
+    @NamedQuery(name = "TransaccionesEstrategia.findByAnio", query = "SELECT t FROM TransaccionesEstrategia t WHERE t.anio = :anio")})
 public class TransaccionesEstrategia implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,10 +45,10 @@ public class TransaccionesEstrategia implements Serializable {
     @Column(name = "transacciones", nullable = false)
     private int transacciones;
     @Basic(optional = false)
-    @Column(name = "anio", nullable = false)
+    @Column(name = "anio", nullable = false, length = 45)
     private String anio;
-    @JoinColumn(name = "id_estrategia", referencedColumnName = "id")
-    @ManyToOne
+    @JoinColumn(name = "id_estrategia", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
     private Estrategia idEstrategia;
 
     public TransaccionesEstrategia() {

@@ -34,7 +34,7 @@ import org.apache.poi.ss.usermodel.Row;
  */
 public class leerExcel {
 
-    private final String URL_RESOURCE = "src/recursos/Requerimientos.xls";
+    private final String URL_RESOURCE = "src/recursos/Transacciones.xls";
 
     AccesoDatos accesoDatos;
 

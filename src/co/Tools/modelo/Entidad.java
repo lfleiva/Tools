@@ -24,19 +24,18 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Luis Fernando Leiva
+ * @author Mery Evelyn Ceron
  */
 @Entity
-@Table(name = "entidad", catalog = "vapstool", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"nit"})
-    , @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "entidad", catalog = "tools", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Entidad.findAll", query = "SELECT e FROM Entidad e")
-    , @NamedQuery(name = "Entidad.findById", query = "SELECT e FROM Entidad e WHERE e.id = :id")
-    , @NamedQuery(name = "Entidad.findByNit", query = "SELECT e FROM Entidad e WHERE e.nit = :nit")
-    , @NamedQuery(name = "Entidad.findByNombre", query = "SELECT e FROM Entidad e WHERE e.nombre = :nombre")
-    , @NamedQuery(name = "Entidad.findByDescripcion", query = "SELECT e FROM Entidad e WHERE e.descripcion = :descripcion")})
+    @NamedQuery(name = "Entidad.findAll", query = "SELECT e FROM Entidad e"),
+    @NamedQuery(name = "Entidad.findById", query = "SELECT e FROM Entidad e WHERE e.id = :id"),
+    @NamedQuery(name = "Entidad.findByNit", query = "SELECT e FROM Entidad e WHERE e.nit = :nit"),
+    @NamedQuery(name = "Entidad.findByNombre", query = "SELECT e FROM Entidad e WHERE e.nombre = :nombre"),
+    @NamedQuery(name = "Entidad.findByDescripcion", query = "SELECT e FROM Entidad e WHERE e.descripcion = :descripcion")})
 public class Entidad implements Serializable {
 
     private static final long serialVersionUID = 1L;

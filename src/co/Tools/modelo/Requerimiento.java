@@ -25,20 +25,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Luis Fernando Leiva
+ * @author Mery Evelyn Ceron
  */
 @Entity
-@Table(name = "requerimiento", catalog = "vapstool", schema = "", uniqueConstraints = {
+@Table(name = "requerimiento", catalog = "tools", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Requerimiento.findAll", query = "SELECT r FROM Requerimiento r")
-    , @NamedQuery(name = "Requerimiento.findById", query = "SELECT r FROM Requerimiento r WHERE r.id = :id")
-    , @NamedQuery(name = "Requerimiento.findByProd", query = "SELECT r FROM Requerimiento r WHERE r.prod = :prod")
-    , @NamedQuery(name = "Requerimiento.findByEstado", query = "SELECT r FROM Requerimiento r WHERE r.estado = :estado")
-    , @NamedQuery(name = "Requerimiento.findByFechaRadicado", query = "SELECT r FROM Requerimiento r WHERE r.fechaRadicado = :fechaRadicado")
-    , @NamedQuery(name = "Requerimiento.findByFechaUltimoMovimiento", query = "SELECT r FROM Requerimiento r WHERE r.fechaUltimoMovimiento = :fechaUltimoMovimiento")
-    , @NamedQuery(name = "Requerimiento.findByDescripcion", query = "SELECT r FROM Requerimiento r WHERE r.descripcion = :descripcion")})
+    @NamedQuery(name = "Requerimiento.findAll", query = "SELECT r FROM Requerimiento r"),
+    @NamedQuery(name = "Requerimiento.findById", query = "SELECT r FROM Requerimiento r WHERE r.id = :id"),
+    @NamedQuery(name = "Requerimiento.findByProd", query = "SELECT r FROM Requerimiento r WHERE r.prod = :prod"),
+    @NamedQuery(name = "Requerimiento.findByEstado", query = "SELECT r FROM Requerimiento r WHERE r.estado = :estado"),
+    @NamedQuery(name = "Requerimiento.findByFechaRadicado", query = "SELECT r FROM Requerimiento r WHERE r.fechaRadicado = :fechaRadicado"),
+    @NamedQuery(name = "Requerimiento.findByFechaUltimoMovimiento", query = "SELECT r FROM Requerimiento r WHERE r.fechaUltimoMovimiento = :fechaUltimoMovimiento"),
+    @NamedQuery(name = "Requerimiento.findByDescripcion", query = "SELECT r FROM Requerimiento r WHERE r.descripcion = :descripcion")})
 public class Requerimiento implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,7 +61,7 @@ public class Requerimiento implements Serializable {
     private Date fechaUltimoMovimiento;
     @Column(name = "descripcion", length = 500)
     private String descripcion;
-    @JoinColumn(name = "id_estrategia", referencedColumnName = "id")
+    @JoinColumn(name = "id_estrategia", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Estrategia idEstrategia;
 

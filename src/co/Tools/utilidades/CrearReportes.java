@@ -66,9 +66,9 @@ public class CrearReportes {
                     }
                     migracion.setCq2016(requerimientos2016);
                     migracion.setCq2017(requerimientos2017);
-                    
+
                     migracion.setFechaUltimoCambio(listaRequerimientos.get(listaRequerimientos.size() - 1).getFechaRadicado());
-                    
+
                     accesoDatos.persistirActualizar(migracion);
                 } else {
                     migracion.setFrecuenciaCambios("NA");
@@ -121,27 +121,31 @@ public class CrearReportes {
 
         int diasDiferenciaFechaActual = (int) ((fechaActual.getTime().getTime() - fechaUltimoRequerimiento.getTime().getTime()) / 86400000);
 
-        if (promedio < diasDiferenciaFechaActual) {
-            dias = diasDiferenciaFechaActual;
+        if (promedio > 0) {
+            if (promedio < diasDiferenciaFechaActual) {
+                dias = diasDiferenciaFechaActual;
+            } else {
+                dias = (int) promedio;
+            }
+
+            if (dias < DIAS_QUINCENAL) {
+                frecuencia = "SEMANAL";
+            } else if (dias >= DIAS_QUINCENAL && dias < DIAS_MENSUAL) {
+                frecuencia = "QUINCENAL";
+            } else if (dias >= DIAS_MENSUAL && dias < DIAS_BIMENSUAL) {
+                frecuencia = "MENSUAL";
+            } else if (dias >= DIAS_BIMENSUAL && dias < DIAS_TRIMESTRAL) {
+                frecuencia = "BIMENSUAL";
+            } else if (dias >= DIAS_TRIMESTRAL && dias < DIAS_SEMESTRAL) {
+                frecuencia = "TRIMESTRAL";
+            } else if (dias >= DIAS_SEMESTRAL && dias < DIAS_ANUAL) {
+                frecuencia = "SEMESTRAL";
+            } else if (dias >= DIAS_ANUAL) {
+                frecuencia = "ANUAL O MAYOR";
+            }
         } else {
-            dias = (int) promedio;
+            frecuencia = "NA";
         }
-        
-        if (dias < DIAS_QUINCENAL) {
-            frecuencia = "SEMANAL";
-        } else if (dias >= DIAS_QUINCENAL && dias < DIAS_MENSUAL) {
-            frecuencia = "QUINCENAL";
-        } else if (dias >= DIAS_MENSUAL && dias < DIAS_BIMENSUAL) {
-            frecuencia = "MENSUAL";
-        } else if (dias >= DIAS_BIMENSUAL && dias < DIAS_TRIMESTRAL) {
-            frecuencia = "BIMENSUAL";
-        } else if (dias >= DIAS_TRIMESTRAL && dias < DIAS_SEMESTRAL) {
-            frecuencia = "TRIMESTRAL";
-        } else if (dias >= DIAS_SEMESTRAL && dias < DIAS_ANUAL) {
-            frecuencia = "SEMESTRAL";
-        } else if (dias >= DIAS_ANUAL) {
-            frecuencia = "ANUAL";
-        }      
 
         return frecuencia;
     }

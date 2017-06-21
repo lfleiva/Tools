@@ -8,6 +8,7 @@ package co.Tools.modelo;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,30 +23,24 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 /**
  *
- * @author Luis Fernando Leiva
+ * @author Mery Evelyn Ceron
  */
 @Entity
-@Table(name = "estrategia", catalog = "vapstool", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"codigo"})
-    , @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "estrategia", catalog = "tools", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Estrategia.findAll", query = "SELECT e FROM Estrategia e")
-    , @NamedQuery(name = "Estrategia.findById", query = "SELECT e FROM Estrategia e WHERE e.id = :id")
-    , @NamedQuery(name = "Estrategia.findByCodigo", query = "SELECT e FROM Estrategia e WHERE e.codigo = :codigo")
-    , @NamedQuery(name = "Estrategia.findByNombre", query = "SELECT e FROM Estrategia e WHERE e.nombre = :nombre")
-    , @NamedQuery(name = "Estrategia.findByComplejidad", query = "SELECT e FROM Estrategia e WHERE e.complejidad = :complejidad")
-    , @NamedQuery(name = "Estrategia.findByAutonomo", query = "SELECT e FROM Estrategia e WHERE e.autonomo = :autonomo")
-    , @NamedQuery(name = "Estrategia.findByDescripcion", query = "SELECT e FROM Estrategia e WHERE e.descripcion = :descripcion")})
+    @NamedQuery(name = "Estrategia.findAll", query = "SELECT e FROM Estrategia e"),
+    @NamedQuery(name = "Estrategia.findById", query = "SELECT e FROM Estrategia e WHERE e.id = :id"),
+    @NamedQuery(name = "Estrategia.findByCodigo", query = "SELECT e FROM Estrategia e WHERE e.codigo = :codigo"),
+    @NamedQuery(name = "Estrategia.findByNombre", query = "SELECT e FROM Estrategia e WHERE e.nombre = :nombre"),
+    @NamedQuery(name = "Estrategia.findByComplejidad", query = "SELECT e FROM Estrategia e WHERE e.complejidad = :complejidad"),
+    @NamedQuery(name = "Estrategia.findByAutonomo", query = "SELECT e FROM Estrategia e WHERE e.autonomo = :autonomo"),
+    @NamedQuery(name = "Estrategia.findByDescripcion", query = "SELECT e FROM Estrategia e WHERE e.descripcion = :descripcion")})
 public class Estrategia implements Serializable {
-
-    @OneToMany(mappedBy = "idEstrategia")
-    private List<Migracion> migracionList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,9 +60,15 @@ public class Estrategia implements Serializable {
     private Boolean autonomo;
     @Column(name = "descripcion", length = 500)
     private String descripcion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstrategia")
+    private List<Migracion> migracionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstrategia")
+    private List<TransaccionesEstrategia> transaccionesEstrategiaList;
     @JoinColumn(name = "id_entidad", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Entidad idEntidad;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstrategia")
+    private List<Requerimiento> requerimientoList;
 
     public Estrategia() {
     }
@@ -130,6 +131,24 @@ public class Estrategia implements Serializable {
         this.descripcion = descripcion;
     }
 
+    @XmlTransient
+    public List<Migracion> getMigracionList() {
+        return migracionList;
+    }
+
+    public void setMigracionList(List<Migracion> migracionList) {
+        this.migracionList = migracionList;
+    }
+
+    @XmlTransient
+    public List<TransaccionesEstrategia> getTransaccionesEstrategiaList() {
+        return transaccionesEstrategiaList;
+    }
+
+    public void setTransaccionesEstrategiaList(List<TransaccionesEstrategia> transaccionesEstrategiaList) {
+        this.transaccionesEstrategiaList = transaccionesEstrategiaList;
+    }
+
     public Entidad getIdEntidad() {
         return idEntidad;
     }
@@ -138,13 +157,14 @@ public class Estrategia implements Serializable {
         this.idEntidad = idEntidad;
     }
 
-//    public List<Requerimiento> getRequerimientoList() {
-//        return requerimientoList;
-//    }
-//
-//    public void setRequerimientoList(List<Requerimiento> requerimientoList) {
-//        this.requerimientoList = requerimientoList;
-//    }        
+    @XmlTransient
+    public List<Requerimiento> getRequerimientoList() {
+        return requerimientoList;
+    }
+
+    public void setRequerimientoList(List<Requerimiento> requerimientoList) {
+        this.requerimientoList = requerimientoList;
+    }
 
     @Override
     public int hashCode() {
@@ -169,15 +189,6 @@ public class Estrategia implements Serializable {
     @Override
     public String toString() {
         return "co.Tools.modelo.Estrategia[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Migracion> getMigracionList() {
-        return migracionList;
-    }
-
-    public void setMigracionList(List<Migracion> migracionList) {
-        this.migracionList = migracionList;
     }
     
 }
