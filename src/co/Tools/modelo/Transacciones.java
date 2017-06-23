@@ -22,18 +22,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Mery Evelyn Ceron
+ * @author Luis Fernando Leiva
  */
 @Entity
-@Table(name = "transacciones_estrategia", catalog = "tools", schema = "", uniqueConstraints = {
+@Table(name = "transacciones", catalog = "tools", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TransaccionesEstrategia.findAll", query = "SELECT t FROM TransaccionesEstrategia t"),
-    @NamedQuery(name = "TransaccionesEstrategia.findById", query = "SELECT t FROM TransaccionesEstrategia t WHERE t.id = :id"),
-    @NamedQuery(name = "TransaccionesEstrategia.findByTransacciones", query = "SELECT t FROM TransaccionesEstrategia t WHERE t.transacciones = :transacciones"),
-    @NamedQuery(name = "TransaccionesEstrategia.findByAnio", query = "SELECT t FROM TransaccionesEstrategia t WHERE t.anio = :anio")})
-public class TransaccionesEstrategia implements Serializable {
+    @NamedQuery(name = "Transacciones.findAll", query = "SELECT t FROM Transacciones t")
+    , @NamedQuery(name = "Transacciones.findById", query = "SELECT t FROM Transacciones t WHERE t.id = :id")
+    , @NamedQuery(name = "Transacciones.findByNit", query = "SELECT t FROM Transacciones t WHERE t.nit = :nit")
+    , @NamedQuery(name = "Transacciones.findByEntidad", query = "SELECT t FROM Transacciones t WHERE t.entidad = :entidad")
+    , @NamedQuery(name = "Transacciones.findByTransacciones", query = "SELECT t FROM Transacciones t WHERE t.transacciones = :transacciones")
+    , @NamedQuery(name = "Transacciones.findByAnio", query = "SELECT t FROM Transacciones t WHERE t.anio = :anio")})
+public class Transacciones implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,24 +43,28 @@ public class TransaccionesEstrategia implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
+    @Column(name = "nit", length = 100)
+    private String nit;
+    @Column(name = "entidad", length = 500)
+    private String entidad;
     @Basic(optional = false)
     @Column(name = "transacciones", nullable = false)
     private int transacciones;
     @Basic(optional = false)
-    @Column(name = "anio", nullable = false, length = 45)
+    @Column(name = "anio", nullable = false, length = 100)
     private String anio;
-    @JoinColumn(name = "id_estrategia", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_estrategia", referencedColumnName = "id")
+    @ManyToOne
     private Estrategia idEstrategia;
 
-    public TransaccionesEstrategia() {
+    public Transacciones() {
     }
 
-    public TransaccionesEstrategia(Integer id) {
+    public Transacciones(Integer id) {
         this.id = id;
     }
 
-    public TransaccionesEstrategia(Integer id, int transacciones, String anio) {
+    public Transacciones(Integer id, int transacciones, String anio) {
         this.id = id;
         this.transacciones = transacciones;
         this.anio = anio;
@@ -70,6 +76,22 @@ public class TransaccionesEstrategia implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getNit() {
+        return nit;
+    }
+
+    public void setNit(String nit) {
+        this.nit = nit;
+    }
+
+    public String getEntidad() {
+        return entidad;
+    }
+
+    public void setEntidad(String entidad) {
+        this.entidad = entidad;
     }
 
     public int getTransacciones() {
@@ -106,10 +128,10 @@ public class TransaccionesEstrategia implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TransaccionesEstrategia)) {
+        if (!(object instanceof Transacciones)) {
             return false;
         }
-        TransaccionesEstrategia other = (TransaccionesEstrategia) object;
+        Transacciones other = (Transacciones) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +140,7 @@ public class TransaccionesEstrategia implements Serializable {
 
     @Override
     public String toString() {
-        return "co.Tools.modelo.TransaccionesEstrategia[ id=" + id + " ]";
+        return "co.Tools.modelo.Transacciones[ id=" + id + " ]";
     }
     
 }

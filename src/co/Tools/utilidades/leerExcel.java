@@ -9,7 +9,7 @@ import co.Tools.control.AccesoDatos;
 import co.Tools.modelo.Entidad;
 import co.Tools.modelo.Estrategia;
 import co.Tools.modelo.Requerimiento;
-import co.Tools.modelo.TransaccionesEstrategia;
+import co.Tools.modelo.Transacciones;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -157,7 +157,7 @@ public class leerExcel {
             // Obtenemos el iterator que permite recorres todas las celdas de una fila
             Iterator<Cell> cellIterator = row.cellIterator();
             Cell celda;
-            TransaccionesEstrategia transacciones = new TransaccionesEstrategia();
+            Transacciones transacciones = new Transacciones();
             boolean registrarTransaccion = false;
             while (cellIterator.hasNext() && numFila > 1) {
                 celda = cellIterator.next();

@@ -8,7 +8,6 @@ package co.Tools.modelo;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,20 +25,21 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Mery Evelyn Ceron
+ * @author Luis Fernando Leiva
  */
 @Entity
 @Table(name = "estrategia", catalog = "tools", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+    @UniqueConstraint(columnNames = {"codigo"})
+    , @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Estrategia.findAll", query = "SELECT e FROM Estrategia e"),
-    @NamedQuery(name = "Estrategia.findById", query = "SELECT e FROM Estrategia e WHERE e.id = :id"),
-    @NamedQuery(name = "Estrategia.findByCodigo", query = "SELECT e FROM Estrategia e WHERE e.codigo = :codigo"),
-    @NamedQuery(name = "Estrategia.findByNombre", query = "SELECT e FROM Estrategia e WHERE e.nombre = :nombre"),
-    @NamedQuery(name = "Estrategia.findByComplejidad", query = "SELECT e FROM Estrategia e WHERE e.complejidad = :complejidad"),
-    @NamedQuery(name = "Estrategia.findByAutonomo", query = "SELECT e FROM Estrategia e WHERE e.autonomo = :autonomo"),
-    @NamedQuery(name = "Estrategia.findByDescripcion", query = "SELECT e FROM Estrategia e WHERE e.descripcion = :descripcion")})
+    @NamedQuery(name = "Estrategia.findAll", query = "SELECT e FROM Estrategia e")
+    , @NamedQuery(name = "Estrategia.findById", query = "SELECT e FROM Estrategia e WHERE e.id = :id")
+    , @NamedQuery(name = "Estrategia.findByCodigo", query = "SELECT e FROM Estrategia e WHERE e.codigo = :codigo")
+    , @NamedQuery(name = "Estrategia.findByNombre", query = "SELECT e FROM Estrategia e WHERE e.nombre = :nombre")
+    , @NamedQuery(name = "Estrategia.findByMultientidad", query = "SELECT e FROM Estrategia e WHERE e.multientidad = :multientidad")
+    , @NamedQuery(name = "Estrategia.findByComplejidad", query = "SELECT e FROM Estrategia e WHERE e.complejidad = :complejidad")
+    , @NamedQuery(name = "Estrategia.findByDescripcion", query = "SELECT e FROM Estrategia e WHERE e.descripcion = :descripcion")})
 public class Estrategia implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,20 +54,20 @@ public class Estrategia implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre", nullable = false, length = 500)
     private String nombre;
+    @Column(name = "multientidad")
+    private Boolean multientidad;
     @Column(name = "complejidad", length = 100)
     private String complejidad;
-    @Column(name = "autonomo")
-    private Boolean autonomo;
     @Column(name = "descripcion", length = 500)
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstrategia")
+    @OneToMany(mappedBy = "idEstrategia")
     private List<Migracion> migracionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstrategia")
-    private List<TransaccionesEstrategia> transaccionesEstrategiaList;
     @JoinColumn(name = "id_entidad", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Entidad idEntidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstrategia")
+    @OneToMany(mappedBy = "idEstrategia")
+    private List<Transacciones> transaccionesList;
+    @OneToMany(mappedBy = "idEstrategia")
     private List<Requerimiento> requerimientoList;
 
     public Estrategia() {
@@ -107,20 +107,20 @@ public class Estrategia implements Serializable {
         this.nombre = nombre;
     }
 
+    public Boolean getMultientidad() {
+        return multientidad;
+    }
+
+    public void setMultientidad(Boolean multientidad) {
+        this.multientidad = multientidad;
+    }
+
     public String getComplejidad() {
         return complejidad;
     }
 
     public void setComplejidad(String complejidad) {
         this.complejidad = complejidad;
-    }
-
-    public Boolean getAutonomo() {
-        return autonomo;
-    }
-
-    public void setAutonomo(Boolean autonomo) {
-        this.autonomo = autonomo;
     }
 
     public String getDescripcion() {
@@ -140,21 +140,21 @@ public class Estrategia implements Serializable {
         this.migracionList = migracionList;
     }
 
-    @XmlTransient
-    public List<TransaccionesEstrategia> getTransaccionesEstrategiaList() {
-        return transaccionesEstrategiaList;
-    }
-
-    public void setTransaccionesEstrategiaList(List<TransaccionesEstrategia> transaccionesEstrategiaList) {
-        this.transaccionesEstrategiaList = transaccionesEstrategiaList;
-    }
-
     public Entidad getIdEntidad() {
         return idEntidad;
     }
 
     public void setIdEntidad(Entidad idEntidad) {
         this.idEntidad = idEntidad;
+    }
+
+    @XmlTransient
+    public List<Transacciones> getTransaccionesList() {
+        return transaccionesList;
+    }
+
+    public void setTransaccionesList(List<Transacciones> transaccionesList) {
+        this.transaccionesList = transaccionesList;
     }
 
     @XmlTransient

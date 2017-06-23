@@ -9,7 +9,7 @@ import co.Tools.control.AccesoDatos;
 import co.Tools.modelo.Estrategia;
 import co.Tools.modelo.Migracion;
 import co.Tools.modelo.Requerimiento;
-import co.Tools.modelo.TransaccionesEstrategia;
+import co.Tools.modelo.Transacciones;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -37,11 +37,11 @@ public class CrearReportes {
 
     private void crearPrueba() {
         accesoDatos = new AccesoDatos();
-        List<TransaccionesEstrategia> listaTransacciones = new ArrayList<TransaccionesEstrategia>();
-        listaTransacciones = accesoDatos.consultarTodos(TransaccionesEstrategia.class);
+        List<Transacciones> listaTransacciones = new ArrayList<Transacciones>();
+        listaTransacciones = accesoDatos.consultarTodos(Transacciones.class);
 
         if (!listaTransacciones.isEmpty()) {
-            for (TransaccionesEstrategia transacciones : listaTransacciones) {
+            for (Transacciones transacciones : listaTransacciones) {
                 Migracion migracion = new Migracion();
                 migracion.setIdEstrategia(transacciones.getIdEstrategia());
                 migracion.setComplejidad(transacciones.getIdEstrategia().getComplejidad());

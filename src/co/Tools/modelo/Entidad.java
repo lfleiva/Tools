@@ -24,18 +24,20 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Mery Evelyn Ceron
+ * @author Luis Fernando Leiva
  */
 @Entity
 @Table(name = "entidad", catalog = "tools", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+    @UniqueConstraint(columnNames = {"nit"})
+    , @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Entidad.findAll", query = "SELECT e FROM Entidad e"),
-    @NamedQuery(name = "Entidad.findById", query = "SELECT e FROM Entidad e WHERE e.id = :id"),
-    @NamedQuery(name = "Entidad.findByNit", query = "SELECT e FROM Entidad e WHERE e.nit = :nit"),
-    @NamedQuery(name = "Entidad.findByNombre", query = "SELECT e FROM Entidad e WHERE e.nombre = :nombre"),
-    @NamedQuery(name = "Entidad.findByDescripcion", query = "SELECT e FROM Entidad e WHERE e.descripcion = :descripcion")})
+    @NamedQuery(name = "Entidad.findAll", query = "SELECT e FROM Entidad e")
+    , @NamedQuery(name = "Entidad.findById", query = "SELECT e FROM Entidad e WHERE e.id = :id")
+    , @NamedQuery(name = "Entidad.findByNit", query = "SELECT e FROM Entidad e WHERE e.nit = :nit")
+    , @NamedQuery(name = "Entidad.findByNombre", query = "SELECT e FROM Entidad e WHERE e.nombre = :nombre")
+    , @NamedQuery(name = "Entidad.findByAutonomo", query = "SELECT e FROM Entidad e WHERE e.autonomo = :autonomo")
+    , @NamedQuery(name = "Entidad.findByDescripcion", query = "SELECT e FROM Entidad e WHERE e.descripcion = :descripcion")})
 public class Entidad implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +52,8 @@ public class Entidad implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre", nullable = false, length = 500)
     private String nombre;
+    @Column(name = "autonomo")
+    private Boolean autonomo;
     @Column(name = "descripcion", length = 500)
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEntidad")
@@ -90,6 +94,14 @@ public class Entidad implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Boolean getAutonomo() {
+        return autonomo;
+    }
+
+    public void setAutonomo(Boolean autonomo) {
+        this.autonomo = autonomo;
     }
 
     public String getDescripcion() {

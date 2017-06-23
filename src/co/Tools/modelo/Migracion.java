@@ -25,21 +25,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Mery Evelyn Ceron
+ * @author Luis Fernando Leiva
  */
 @Entity
 @Table(name = "migracion", catalog = "tools", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Migracion.findAll", query = "SELECT m FROM Migracion m"),
-    @NamedQuery(name = "Migracion.findById", query = "SELECT m FROM Migracion m WHERE m.id = :id"),
-    @NamedQuery(name = "Migracion.findByCq2016", query = "SELECT m FROM Migracion m WHERE m.cq2016 = :cq2016"),
-    @NamedQuery(name = "Migracion.findByCq2017", query = "SELECT m FROM Migracion m WHERE m.cq2017 = :cq2017"),
-    @NamedQuery(name = "Migracion.findByFechaUltimoCambio", query = "SELECT m FROM Migracion m WHERE m.fechaUltimoCambio = :fechaUltimoCambio"),
-    @NamedQuery(name = "Migracion.findByFrecuenciaCambios", query = "SELECT m FROM Migracion m WHERE m.frecuenciaCambios = :frecuenciaCambios"),
-    @NamedQuery(name = "Migracion.findByComplejidad", query = "SELECT m FROM Migracion m WHERE m.complejidad = :complejidad"),
-    @NamedQuery(name = "Migracion.findByTransacciones", query = "SELECT m FROM Migracion m WHERE m.transacciones = :transacciones")})
+    @NamedQuery(name = "Migracion.findAll", query = "SELECT m FROM Migracion m")
+    , @NamedQuery(name = "Migracion.findById", query = "SELECT m FROM Migracion m WHERE m.id = :id")
+    , @NamedQuery(name = "Migracion.findByCq2016", query = "SELECT m FROM Migracion m WHERE m.cq2016 = :cq2016")
+    , @NamedQuery(name = "Migracion.findByCq2017", query = "SELECT m FROM Migracion m WHERE m.cq2017 = :cq2017")
+    , @NamedQuery(name = "Migracion.findByFechaUltimoCambio", query = "SELECT m FROM Migracion m WHERE m.fechaUltimoCambio = :fechaUltimoCambio")
+    , @NamedQuery(name = "Migracion.findByFrecuenciaCambios", query = "SELECT m FROM Migracion m WHERE m.frecuenciaCambios = :frecuenciaCambios")
+    , @NamedQuery(name = "Migracion.findByComplejidad", query = "SELECT m FROM Migracion m WHERE m.complejidad = :complejidad")
+    , @NamedQuery(name = "Migracion.findByTransacciones", query = "SELECT m FROM Migracion m WHERE m.transacciones = :transacciones")})
 public class Migracion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,8 +61,8 @@ public class Migracion implements Serializable {
     private String complejidad;
     @Column(name = "transacciones")
     private Integer transacciones;
-    @JoinColumn(name = "id_estrategia", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_estrategia", referencedColumnName = "id")
+    @ManyToOne
     private Estrategia idEstrategia;
 
     public Migracion() {
