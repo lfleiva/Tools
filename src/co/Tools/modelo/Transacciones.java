@@ -22,19 +22,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Luis Fernando Leiva
+ * @author Mery Evelyn Ceron
  */
 @Entity
 @Table(name = "transacciones", catalog = "tools", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Transacciones.findAll", query = "SELECT t FROM Transacciones t")
-    , @NamedQuery(name = "Transacciones.findById", query = "SELECT t FROM Transacciones t WHERE t.id = :id")
-    , @NamedQuery(name = "Transacciones.findByNit", query = "SELECT t FROM Transacciones t WHERE t.nit = :nit")
-    , @NamedQuery(name = "Transacciones.findByEntidad", query = "SELECT t FROM Transacciones t WHERE t.entidad = :entidad")
-    , @NamedQuery(name = "Transacciones.findByTransacciones", query = "SELECT t FROM Transacciones t WHERE t.transacciones = :transacciones")
-    , @NamedQuery(name = "Transacciones.findByAnio", query = "SELECT t FROM Transacciones t WHERE t.anio = :anio")})
+    @NamedQuery(name = "Transacciones.findAll", query = "SELECT t FROM Transacciones t"),
+    @NamedQuery(name = "Transacciones.findById", query = "SELECT t FROM Transacciones t WHERE t.id = :id"),
+    @NamedQuery(name = "Transacciones.findByNit", query = "SELECT t FROM Transacciones t WHERE t.nit = :nit"),
+    @NamedQuery(name = "Transacciones.findByEntidad", query = "SELECT t FROM Transacciones t WHERE t.entidad = :entidad"),
+    @NamedQuery(name = "Transacciones.findByTransacciones", query = "SELECT t FROM Transacciones t WHERE t.transacciones = :transacciones"),
+    @NamedQuery(name = "Transacciones.findByAnio", query = "SELECT t FROM Transacciones t WHERE t.anio = :anio")})
 public class Transacciones implements Serializable {
 
     private static final long serialVersionUID = 1L;

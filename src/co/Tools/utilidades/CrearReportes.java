@@ -10,10 +10,15 @@ import co.Tools.modelo.Estrategia;
 import co.Tools.modelo.Migracion;
 import co.Tools.modelo.Requerimiento;
 import co.Tools.modelo.Transacciones;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,10 +37,11 @@ public class CrearReportes {
     AccesoDatos accesoDatos;
 
     public CrearReportes() {
-        crearPrueba();
+        pesoComplejidad("BAJA");
+        crearReporteMigracion();
     }
 
-    private void crearPrueba() {
+    private void crearReporteMigracion() {
         accesoDatos = new AccesoDatos();
         List<Transacciones> listaTransacciones = new ArrayList<Transacciones>();
         listaTransacciones = accesoDatos.consultarTodos(Transacciones.class);
@@ -53,7 +59,7 @@ public class CrearReportes {
                 int requerimientos2016 = 0;
                 int requerimientos2017 = 0;
                 if (listaRequerimientos != null && !listaRequerimientos.isEmpty()) {
-                    migracion.setFrecuenciaCambios(frecuenciaRequerimientos(listaRequerimientos));
+                    migracion.setFrecuencia(frecuenciaRequerimientos(listaRequerimientos));
                     for (Requerimiento requerimiento : listaRequerimientos) {
                         Calendar fechaCal = new GregorianCalendar();
                         fechaCal.setTime(requerimiento.getFechaRadicado());
@@ -67,11 +73,21 @@ public class CrearReportes {
                     migracion.setCq2016(requerimientos2016);
                     migracion.setCq2017(requerimientos2017);
 
-                    migracion.setFechaUltimoCambio(listaRequerimientos.get(listaRequerimientos.size() - 1).getFechaRadicado());
+                    migracion.setFechaUltimoCambio(listaRequerimientos.get(listaRequerimientos.size() - 1).getFechaRadicado());                    
+                    
+                    if(migracion.getComplejidad() != null) {
+                        migracion.setComplejidadPeso(pesoComplejidad(migracion.getComplejidad()));
+                    } else {
+                        migracion.setComplejidadPeso(0);
+                    }
+                    
+                    migracion.setFrecuenciaPeso(pesoFrecuencia(migracion.getFrecuencia()));                    
+                    migracion.setTransaccionesPeso(pesoTransacciones(migracion.getTransacciones()));
+                    migracion.setPeso(migracion.getFrecuenciaPeso() + migracion.getComplejidadPeso() + migracion.getTransaccionesPeso());
 
                     accesoDatos.persistirActualizar(migracion);
                 } else {
-                    migracion.setFrecuenciaCambios("NA");
+                    migracion.setFrecuencia("NA");
                     migracion.setCq2016(requerimientos2016);
                     migracion.setCq2017(requerimientos2017);
                     accesoDatos.persistirActualizar(migracion);
@@ -148,5 +164,103 @@ public class CrearReportes {
         }
 
         return frecuencia;
+    }
+    
+    private int pesoComplejidad(String complejidad) {
+        int peso = 0;
+        
+        try {
+            Properties p = new Properties();
+            p.load(new FileReader("src/co/Tools/utilidades/matriz_pesos.properties"));
+            
+            switch (complejidad) {
+                case "BAJA":
+                    peso = Integer.parseInt(p.getProperty("COMPLEJIDAD_BAJA"));
+                    break;
+                case "MEDIA":
+                    peso = Integer.parseInt(p.getProperty("COMPLEJIDAD_MEDIA"));
+                    break;            
+                case "ALTA":
+                    peso = Integer.parseInt(p.getProperty("COMPLEJIDAD_ALTA"));
+                    break;
+                default:
+                    break;
+            }
+            
+            System.out.println(complejidad + " = " + peso);            
+        } catch (IOException ex) {
+            Logger.getLogger(CrearReportes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return peso;
+    }
+    
+    private int pesoFrecuencia(String frecuencia) {
+        int peso = 0;
+        
+        try {
+            Properties p = new Properties();
+            p.load(new FileReader("src/co/Tools/utilidades/matriz_pesos.properties"));
+            
+            switch (frecuencia) {
+                case "SEMANAL":
+                    peso = Integer.parseInt(p.getProperty("FRECUENCIA_SEMANAL"));
+                    break;
+                case "QUINCENAL":
+                    peso = Integer.parseInt(p.getProperty("FRECUENCIA_QUINCENAL"));
+                    break;            
+                case "MENSUAL":
+                    peso = Integer.parseInt(p.getProperty("FRECUENCIA_MENSUAL"));
+                    break;
+                case "BIMENSUAL":
+                    peso = Integer.parseInt(p.getProperty("FRECUENCIA_BIMENSUAL"));
+                    break;
+                case "TRIMESTRAL":
+                    peso = Integer.parseInt(p.getProperty("FRECUENCIA_TRIMESTRAL"));
+                    break;
+                case "SEMESTRAL":
+                    peso = Integer.parseInt(p.getProperty("FRECUENCIA_SEMESTRAL"));
+                    break;
+                case "ANUAL O MAYOR":
+                    peso = Integer.parseInt(p.getProperty("FRECUENCIA_ANUAL"));
+                    break;
+                case "NA":
+                    peso = Integer.parseInt(p.getProperty("SIN_CAMBIOS"));
+                    break;
+                default:
+                    break;
+            }
+            
+            System.out.println(frecuencia + " = " + peso);            
+        } catch (IOException ex) {
+            Logger.getLogger(CrearReportes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return peso;
+    }
+    
+    private int pesoTransacciones(int transacciones) {
+        int peso = 0;
+        
+        try {
+            Properties p = new Properties();
+            p.load(new FileReader("src/co/Tools/utilidades/matriz_pesos.properties"));
+            int baja = Integer.parseInt(p.getProperty("NUMERO_BAJA"));
+            int media = Integer.parseInt(p.getProperty("NUMERO_MEDIA"));
+            
+            if(transacciones <= baja) {
+                peso = Integer.parseInt(p.getProperty("TRANSACCIONES_BAJA"));
+            } else if(transacciones > baja && transacciones <= media) {
+                peso = Integer.parseInt(p.getProperty("TRANSACCIONES_MEDIA"));
+            } else if(transacciones > media) {
+                peso = Integer.parseInt(p.getProperty("TRANSACCIONES_ALTA"));
+            }            
+            
+            System.out.println(transacciones + " = " + peso);            
+        } catch (IOException ex) {
+            Logger.getLogger(CrearReportes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return peso;
     }
 }

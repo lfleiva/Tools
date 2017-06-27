@@ -25,21 +25,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Luis Fernando Leiva
+ * @author Mery Evelyn Ceron
  */
 @Entity
 @Table(name = "migracion", catalog = "tools", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Migracion.findAll", query = "SELECT m FROM Migracion m")
-    , @NamedQuery(name = "Migracion.findById", query = "SELECT m FROM Migracion m WHERE m.id = :id")
-    , @NamedQuery(name = "Migracion.findByCq2016", query = "SELECT m FROM Migracion m WHERE m.cq2016 = :cq2016")
-    , @NamedQuery(name = "Migracion.findByCq2017", query = "SELECT m FROM Migracion m WHERE m.cq2017 = :cq2017")
-    , @NamedQuery(name = "Migracion.findByFechaUltimoCambio", query = "SELECT m FROM Migracion m WHERE m.fechaUltimoCambio = :fechaUltimoCambio")
-    , @NamedQuery(name = "Migracion.findByFrecuenciaCambios", query = "SELECT m FROM Migracion m WHERE m.frecuenciaCambios = :frecuenciaCambios")
-    , @NamedQuery(name = "Migracion.findByComplejidad", query = "SELECT m FROM Migracion m WHERE m.complejidad = :complejidad")
-    , @NamedQuery(name = "Migracion.findByTransacciones", query = "SELECT m FROM Migracion m WHERE m.transacciones = :transacciones")})
+    @NamedQuery(name = "Migracion.findAll", query = "SELECT m FROM Migracion m"),
+    @NamedQuery(name = "Migracion.findById", query = "SELECT m FROM Migracion m WHERE m.id = :id"),
+    @NamedQuery(name = "Migracion.findByCq2016", query = "SELECT m FROM Migracion m WHERE m.cq2016 = :cq2016"),
+    @NamedQuery(name = "Migracion.findByCq2017", query = "SELECT m FROM Migracion m WHERE m.cq2017 = :cq2017"),
+    @NamedQuery(name = "Migracion.findByFechaUltimoCambio", query = "SELECT m FROM Migracion m WHERE m.fechaUltimoCambio = :fechaUltimoCambio"),
+    @NamedQuery(name = "Migracion.findByFrecuencia", query = "SELECT m FROM Migracion m WHERE m.frecuencia = :frecuencia"),
+    @NamedQuery(name = "Migracion.findByComplejidad", query = "SELECT m FROM Migracion m WHERE m.complejidad = :complejidad"),
+    @NamedQuery(name = "Migracion.findByTransacciones", query = "SELECT m FROM Migracion m WHERE m.transacciones = :transacciones"),
+    @NamedQuery(name = "Migracion.findByFrecuenciaPeso", query = "SELECT m FROM Migracion m WHERE m.frecuenciaPeso = :frecuenciaPeso"),
+    @NamedQuery(name = "Migracion.findByComplejidadPeso", query = "SELECT m FROM Migracion m WHERE m.complejidadPeso = :complejidadPeso"),
+    @NamedQuery(name = "Migracion.findByTransaccionesPeso", query = "SELECT m FROM Migracion m WHERE m.transaccionesPeso = :transaccionesPeso"),
+    @NamedQuery(name = "Migracion.findByPeso", query = "SELECT m FROM Migracion m WHERE m.peso = :peso")})
 public class Migracion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,12 +59,20 @@ public class Migracion implements Serializable {
     @Column(name = "fecha_ultimo_cambio")
     @Temporal(TemporalType.DATE)
     private Date fechaUltimoCambio;
-    @Column(name = "frecuencia_cambios", length = 100)
-    private String frecuenciaCambios;
+    @Column(name = "frecuencia", length = 100)
+    private String frecuencia;
     @Column(name = "complejidad", length = 100)
     private String complejidad;
     @Column(name = "transacciones")
     private Integer transacciones;
+    @Column(name = "frecuencia_peso")
+    private Integer frecuenciaPeso;
+    @Column(name = "complejidad_peso")
+    private Integer complejidadPeso;
+    @Column(name = "transacciones_peso")
+    private Integer transaccionesPeso;
+    @Column(name = "peso")
+    private Integer peso;
     @JoinColumn(name = "id_estrategia", referencedColumnName = "id")
     @ManyToOne
     private Estrategia idEstrategia;
@@ -104,12 +116,12 @@ public class Migracion implements Serializable {
         this.fechaUltimoCambio = fechaUltimoCambio;
     }
 
-    public String getFrecuenciaCambios() {
-        return frecuenciaCambios;
+    public String getFrecuencia() {
+        return frecuencia;
     }
 
-    public void setFrecuenciaCambios(String frecuenciaCambios) {
-        this.frecuenciaCambios = frecuenciaCambios;
+    public void setFrecuencia(String frecuencia) {
+        this.frecuencia = frecuencia;
     }
 
     public String getComplejidad() {
@@ -126,6 +138,38 @@ public class Migracion implements Serializable {
 
     public void setTransacciones(Integer transacciones) {
         this.transacciones = transacciones;
+    }
+
+    public Integer getFrecuenciaPeso() {
+        return frecuenciaPeso;
+    }
+
+    public void setFrecuenciaPeso(Integer frecuenciaPeso) {
+        this.frecuenciaPeso = frecuenciaPeso;
+    }
+
+    public Integer getComplejidadPeso() {
+        return complejidadPeso;
+    }
+
+    public void setComplejidadPeso(Integer complejidadPeso) {
+        this.complejidadPeso = complejidadPeso;
+    }
+
+    public Integer getTransaccionesPeso() {
+        return transaccionesPeso;
+    }
+
+    public void setTransaccionesPeso(Integer transaccionesPeso) {
+        this.transaccionesPeso = transaccionesPeso;
+    }
+
+    public Integer getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Integer peso) {
+        this.peso = peso;
     }
 
     public Estrategia getIdEstrategia() {

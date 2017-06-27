@@ -70,6 +70,12 @@ public class leerExcel {
                 if (celda.getColumnIndex() == 1) {
                     System.out.println(dato);
                     estrategia.setNombre(dato);
+                    
+                    if(dato.indexOf("Multientidad") != -1) {
+                        estrategia.setMultientidad(true);
+                    } else {
+                        estrategia.setMultientidad(false);
+                    }
                 }
 
                 if (celda.getColumnIndex() == 3) {
@@ -166,6 +172,16 @@ public class leerExcel {
                 if (celda.getColumnIndex() == 0) {
                     System.out.println(dato);
                     transacciones.setIdEstrategia(consultarEstrategia(dato));
+                }
+                
+                if (celda.getColumnIndex() == 2) {
+                    System.out.println(dato);
+                    transacciones.setNit(dato);
+                }
+                
+                if (celda.getColumnIndex() == 3) {
+                    System.out.println(dato);
+                    transacciones.setEntidad(dato);
                 }
 
                 if (celda.getColumnIndex() == 4) {

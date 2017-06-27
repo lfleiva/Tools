@@ -25,21 +25,21 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Luis Fernando Leiva
+ * @author Mery Evelyn Ceron
  */
 @Entity
 @Table(name = "estrategia", catalog = "tools", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"codigo"})
-    , @UniqueConstraint(columnNames = {"id"})})
+    @UniqueConstraint(columnNames = {"codigo"}),
+    @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Estrategia.findAll", query = "SELECT e FROM Estrategia e")
-    , @NamedQuery(name = "Estrategia.findById", query = "SELECT e FROM Estrategia e WHERE e.id = :id")
-    , @NamedQuery(name = "Estrategia.findByCodigo", query = "SELECT e FROM Estrategia e WHERE e.codigo = :codigo")
-    , @NamedQuery(name = "Estrategia.findByNombre", query = "SELECT e FROM Estrategia e WHERE e.nombre = :nombre")
-    , @NamedQuery(name = "Estrategia.findByMultientidad", query = "SELECT e FROM Estrategia e WHERE e.multientidad = :multientidad")
-    , @NamedQuery(name = "Estrategia.findByComplejidad", query = "SELECT e FROM Estrategia e WHERE e.complejidad = :complejidad")
-    , @NamedQuery(name = "Estrategia.findByDescripcion", query = "SELECT e FROM Estrategia e WHERE e.descripcion = :descripcion")})
+    @NamedQuery(name = "Estrategia.findAll", query = "SELECT e FROM Estrategia e"),
+    @NamedQuery(name = "Estrategia.findById", query = "SELECT e FROM Estrategia e WHERE e.id = :id"),
+    @NamedQuery(name = "Estrategia.findByCodigo", query = "SELECT e FROM Estrategia e WHERE e.codigo = :codigo"),
+    @NamedQuery(name = "Estrategia.findByNombre", query = "SELECT e FROM Estrategia e WHERE e.nombre = :nombre"),
+    @NamedQuery(name = "Estrategia.findByMultientidad", query = "SELECT e FROM Estrategia e WHERE e.multientidad = :multientidad"),
+    @NamedQuery(name = "Estrategia.findByComplejidad", query = "SELECT e FROM Estrategia e WHERE e.complejidad = :complejidad"),
+    @NamedQuery(name = "Estrategia.findByDescripcion", query = "SELECT e FROM Estrategia e WHERE e.descripcion = :descripcion")})
 public class Estrategia implements Serializable {
 
     private static final long serialVersionUID = 1L;
