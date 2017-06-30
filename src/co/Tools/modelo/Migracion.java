@@ -34,6 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Migracion.findAll", query = "SELECT m FROM Migracion m"),
     @NamedQuery(name = "Migracion.findById", query = "SELECT m FROM Migracion m WHERE m.id = :id"),
+    @NamedQuery(name = "Migracion.findByCodigoEstrategia", query = "SELECT m FROM Migracion m WHERE m.codigoEstrategia = :codigoEstrategia"),
+    @NamedQuery(name = "Migracion.findByNombreEstrategia", query = "SELECT m FROM Migracion m WHERE m.nombreEstrategia = :nombreEstrategia"),
+    @NamedQuery(name = "Migracion.findByMultientidad", query = "SELECT m FROM Migracion m WHERE m.multientidad = :multientidad"),
+    @NamedQuery(name = "Migracion.findByNitEntidad", query = "SELECT m FROM Migracion m WHERE m.nitEntidad = :nitEntidad"),
+    @NamedQuery(name = "Migracion.findByNombreEntidad", query = "SELECT m FROM Migracion m WHERE m.nombreEntidad = :nombreEntidad"),
+    @NamedQuery(name = "Migracion.findByAutonomo", query = "SELECT m FROM Migracion m WHERE m.autonomo = :autonomo"),
     @NamedQuery(name = "Migracion.findByCq2016", query = "SELECT m FROM Migracion m WHERE m.cq2016 = :cq2016"),
     @NamedQuery(name = "Migracion.findByCq2017", query = "SELECT m FROM Migracion m WHERE m.cq2017 = :cq2017"),
     @NamedQuery(name = "Migracion.findByFechaUltimoCambio", query = "SELECT m FROM Migracion m WHERE m.fechaUltimoCambio = :fechaUltimoCambio"),
@@ -52,6 +58,18 @@ public class Migracion implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
+    @Column(name = "codigo_estrategia", length = 100)
+    private String codigoEstrategia;
+    @Column(name = "nombre_estrategia", length = 500)
+    private String nombreEstrategia;
+    @Column(name = "multientidad", length = 100)
+    private String multientidad;
+    @Column(name = "nit_entidad", length = 100)
+    private String nitEntidad;
+    @Column(name = "nombre_entidad", length = 500)
+    private String nombreEntidad;
+    @Column(name = "autonomo", length = 100)
+    private String autonomo;
     @Column(name = "cq_2016")
     private Integer cq2016;
     @Column(name = "cq_2017")
@@ -90,6 +108,54 @@ public class Migracion implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCodigoEstrategia() {
+        return codigoEstrategia;
+    }
+
+    public void setCodigoEstrategia(String codigoEstrategia) {
+        this.codigoEstrategia = codigoEstrategia;
+    }
+
+    public String getNombreEstrategia() {
+        return nombreEstrategia;
+    }
+
+    public void setNombreEstrategia(String nombreEstrategia) {
+        this.nombreEstrategia = nombreEstrategia;
+    }
+
+    public String getMultientidad() {
+        return multientidad;
+    }
+
+    public void setMultientidad(String multientidad) {
+        this.multientidad = multientidad;
+    }
+
+    public String getNitEntidad() {
+        return nitEntidad;
+    }
+
+    public void setNitEntidad(String nitEntidad) {
+        this.nitEntidad = nitEntidad;
+    }
+
+    public String getNombreEntidad() {
+        return nombreEntidad;
+    }
+
+    public void setNombreEntidad(String nombreEntidad) {
+        this.nombreEntidad = nombreEntidad;
+    }
+
+    public String getAutonomo() {
+        return autonomo;
+    }
+
+    public void setAutonomo(String autonomo) {
+        this.autonomo = autonomo;
     }
 
     public Integer getCq2016() {

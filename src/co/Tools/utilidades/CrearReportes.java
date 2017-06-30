@@ -6,6 +6,7 @@
 package co.Tools.utilidades;
 
 import co.Tools.control.AccesoDatos;
+import co.Tools.modelo.Entidad;
 import co.Tools.modelo.Estrategia;
 import co.Tools.modelo.Migracion;
 import co.Tools.modelo.Requerimiento;
@@ -50,6 +51,12 @@ public class CrearReportes {
             for (Transacciones transacciones : listaTransacciones) {
                 Migracion migracion = new Migracion();
                 migracion.setIdEstrategia(transacciones.getIdEstrategia());
+                migracion.setCodigoEstrategia(transacciones.getIdEstrategia().getCodigo());
+                migracion.setNombreEstrategia(transacciones.getIdEstrategia().getNombre());
+                migracion.setMultientidad(transacciones.getIdEstrategia().getMultientidad() ? "SI" : "NO");       
+                migracion.setNitEntidad(transacciones.getNit());
+                migracion.setNombreEntidad(transacciones.getEntidad());
+                migracion.setAutonomo(validarClienteAutonomo(transacciones.getNit()));
                 migracion.setComplejidad(transacciones.getIdEstrategia().getComplejidad());
                 migracion.setTransacciones(transacciones.getTransacciones());
 
@@ -262,5 +269,26 @@ public class CrearReportes {
         }
         
         return peso;
+    }
+    
+    private String validarClienteAutonomo(String nit) {
+        accesoDatos = new AccesoDatos();
+        List<Entidad> listaEntidad = new ArrayList<Entidad>();
+        Entidad entidad = new Entidad();        
+        
+        entidad.setNit(nit);
+        listaEntidad = accesoDatos.consultarObjeto(Entidad.class, entidad);
+        
+        if(!listaEntidad.isEmpty()) {
+            entidad = listaEntidad.get(0);            
+            
+            if(entidad.getAutonomo()) {
+                return "SI";
+            } else {
+                return "NO";
+            }
+        } else {
+            return "NO";
+        }
     }
 }
